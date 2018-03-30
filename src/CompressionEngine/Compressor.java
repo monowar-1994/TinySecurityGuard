@@ -35,6 +35,8 @@ public class Compressor {
             return;
         }
 
+        System.out.println("Compression operation is starting now....");
+
         int inputReadAmount = 0;
         String tempStringBuffer = "";
         int compressedIndex = 0;
