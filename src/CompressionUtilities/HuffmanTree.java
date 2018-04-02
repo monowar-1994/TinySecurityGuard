@@ -123,8 +123,8 @@ public class HuffmanTree {
 
         for(int k=0; k<MAX_SOURCE_SYMBOL_NUMBER;k++){
             if(characterToStringMapping[k] != null){
-                System.out.println((char)k +" -> "+frequency[k] +" -> "+characterToStringMapping[k]+" -> "
-                +characterToStringMapping[k].length());
+                //System.out.println((char)k +" -> "+frequency[k] +" -> "+characterToStringMapping[k]+" -> "
+                //+characterToStringMapping[k].length());
                 total += (frequency[k] *characterToStringMapping[k].length());
             }
         }

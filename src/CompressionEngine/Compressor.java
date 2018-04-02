@@ -44,9 +44,11 @@ public class Compressor {
         boolean writeFlag = false;
 
         while(inputReadAmount!=-1){
+            System.out.println("Size of the tempStringBuffer now: "+tempStringBuffer.length() + " in Bytes: "+tempStringBuffer.length()/8);
             try{
                 inputReadAmount = fin.read(inputDataBuffer); // Input File read
-                for(int k = 0 ; k<inputReadAmount; k++){
+
+                for(int k = 0 ; k < inputReadAmount; k++){
                     int indexOftheSymbol = (int)inputDataBuffer[k];
                     if(codeWordList[indexOftheSymbol] == null){
                         continue;
@@ -59,20 +61,34 @@ public class Compressor {
                 break;
             }
 
+            System.out.println("The length of the string now: "+tempStringBuffer.length()/8);
+
             int limit = tempStringBuffer.length()/8;
+            int leftOver = tempStringBuffer.length()%8;
+
+            boolean subStringFlag = true;
 
             for(int k=0;k<limit;k++){
-                if(compressedIndex>=2048){
+
+                if(compressedIndex >= 2048){
                     writeFlag = true;
                     compressedIndex = 0;
                     tempStringBuffer = tempStringBuffer.substring(k*8);
+                    subStringFlag = false;
                     break;
                 }else{
-                    //compressedDataBuffer[compressedIndex] = Byte.parseByte(tempStringBuffer.substring(k*8, (k+1)*8),2);
                     compressedDataBuffer[compressedIndex] = Parser.parseByteFromString(tempStringBuffer.substring(k*8, (k+1)*8));
                     compressedIndex++;
                 }
             }
+
+            if(subStringFlag && leftOver>0){
+                tempStringBuffer = tempStringBuffer.substring(limit*8);
+            }else if(subStringFlag){
+                tempStringBuffer = "";
+            }
+
+            System.out.println("value of the compression index now: "+compressedIndex+" tempStringBuffer size: "+tempStringBuffer.length()+ "\n");
 
             if(limit > 0 && inputReadAmount == -1){
                 writeFlag = true;
