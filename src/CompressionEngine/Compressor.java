@@ -2,6 +2,7 @@ package CompressionEngine;
 
 import CompressionUtilities.FrequencyList;
 import CompressionUtilities.HuffmanTree;
+import GeneralUtilties.Parser;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -67,7 +68,8 @@ public class Compressor {
                     tempStringBuffer = tempStringBuffer.substring(k*8);
                     break;
                 }else{
-                    compressedDataBuffer[compressedIndex] = Byte.parseByte(tempStringBuffer.substring(k*8, (k+1)*8),2);
+                    //compressedDataBuffer[compressedIndex] = Byte.parseByte(tempStringBuffer.substring(k*8, (k+1)*8),2);
+                    compressedDataBuffer[compressedIndex] = Parser.parseByteFromString(tempStringBuffer.substring(k*8, (k+1)*8));
                     compressedIndex++;
                 }
             }

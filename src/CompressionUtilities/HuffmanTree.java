@@ -132,4 +132,6 @@ public class HuffmanTree {
         System.out.println(total/(1024*8));
     }
 
+
+
 }
