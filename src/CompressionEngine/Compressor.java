@@ -44,7 +44,7 @@ public class Compressor {
         boolean writeFlag = false;
 
         while(inputReadAmount!=-1){
-            System.out.println("Size of the tempStringBuffer now: "+tempStringBuffer.length() + " in Bytes: "+tempStringBuffer.length()/8);
+            //System.out.println("Size of the tempStringBuffer now: "+tempStringBuffer.length() + " in Bytes: "+tempStringBuffer.length()/8);
             try{
                 inputReadAmount = fin.read(inputDataBuffer); // Input File read
 
@@ -61,7 +61,7 @@ public class Compressor {
                 break;
             }
 
-            System.out.println("The length of the string now: "+tempStringBuffer.length()/8);
+            //System.out.println("The length of the string now: "+tempStringBuffer.length()/8);
 
             int limit = tempStringBuffer.length()/8;
             int leftOver = tempStringBuffer.length()%8;
@@ -88,7 +88,7 @@ public class Compressor {
                 tempStringBuffer = "";
             }
 
-            System.out.println("value of the compression index now: "+compressedIndex+" tempStringBuffer size: "+tempStringBuffer.length()+ "\n");
+            //System.out.println("value of the compression index now: "+compressedIndex+" tempStringBuffer size: "+tempStringBuffer.length()+ "\n");
 
             if(limit > 0 && inputReadAmount == -1){
                 writeFlag = true;
