@@ -7,7 +7,7 @@ public class TestHuffmanTree {
 
     public static void main(String[] args){
 
-        Compressor.Compress("E:/license_agreement.txt");
+        Compressor.Compress("/Users/mazharul.islam/Dropbox/Research/compression and encryption/TinySecurityGuard/src/A.txt");
 
     }
 }

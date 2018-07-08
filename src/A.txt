@@ -1,0 +1,15 @@
+Suppose  a software  is using a new method for logging in the users. Instead of entering the username, password directly for logging in, the software will ask various questions.The questions should be of the following pattern.  
+        ”Does your password contains character I character at J position”?
+Your answer should be only Yes or No.  Suppose your password is “abc123”. Now the software may ask you these type of questions 
+a)	Does your password contains character ``a” at 1st position? 
+ (Your answer: Yes)
+b)	Does your password contains character ``1” at 4th position? 
+(Your answer: Yes)
+c)	Does your password contains character ``c” at 2nd position? 
+(Your answer: No)
+
+Now the software will ask these types of “Yes/No” questions 10 times. If you have correctly answered all the 10 questions only then the software will let you log in. Write the possible attack scenarios that can be constructed on the following scenario.
+sender achieve
+a)	Data Integrity?
+b)	Data confidentiality?
+Draw the figure of how can you achieve message authentication (and not confidentiality) using asymmetric key (public-private key) encryption? 

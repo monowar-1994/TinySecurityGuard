@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Intellij Projects.iml" filepath="$PROJECT_DIR$/Intellij Projects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TinySecurityGuard.iml" filepath="$PROJECT_DIR$/TinySecurityGuard.iml" />
     </modules>
   </component>
 </project>
