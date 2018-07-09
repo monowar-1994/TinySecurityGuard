@@ -1,34 +1,78 @@
-import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.KeyAgreement;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.Provider;
+import java.security.PublicKey;
+import java.security.Security;
+import java.security.spec.ECGenParameterSpec;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
 
 public class ECCKeyAgrement{
-	public static void main(String[] args) throws Exception{
-		KeyPairGenerator kpg;
-		kpg = KeyPairGenerator.getInstance("EC","SunEC");
-		ECGenParameterSpec ecsp;
+	public static void main(String args[]) {
+		try {
+			Provider p[] = Security.getProviders();
+			Provider p1 = Security.getProvider("SunEC");
+			System.out.println(p1.getName());
 
-		ecsp = new ECGenParameterSpec("secp192k1");
-		kpg.initialize(ecsp);
-		KeyPair kpU = kpg.genKeyPair();
-		PrivateKey privKeyU = kpU.getPrivate();
-		PublicKey pubKeyU = kpU.getPublic();
-		System.out.println("User U: " + privKeyU.toString());
-		System.out.println("User U: " + pubKeyU.toString());
-		KeyPair kpV = kpg.genKeyPair();
-		PrivateKey privKeyV = kpV.getPrivate();
-		PublicKey pubKeyV = kpV.getPublic();
-		System.out.println("User V: " + privKeyV.toString());
-		System.out.println("User V: " + pubKeyV.toString());
-		KeyAgreement ecdhU = KeyAgreement.getInstance("ECDH");
-		ecdhU.init(privKeyU);
-		ecdhU.doPhase(pubKeyV,true);
-		KeyAgreement ecdhV = KeyAgreement.getInstance("ECDH");
-		ecdhV.init(privKeyV);
-		ecdhV.doPhase(pubKeyU,true);
-		System.out.println("Secret computed by U: 0x" + (new BigInteger(1, ecdhU.generateSecret()).toString(16)).toUpperCase());
-		System.out.println("Secret computed by V: 0x" + (new BigInteger(1, ecdhV.generateSecret()).toString(16)).toUpperCase());
+			KeyPairGenerator kpg = KeyPairGenerator.getInstance("EC", "SunEC");
+			//kpg.initialize(128);
+			System.out.println(kpg.getAlgorithm());
+			//Cipher cipher = Cipher.getInstance("EC", "SunEC");
+			Cipher cipher = Cipher.getInstance("DES");
+			System.out.println("provider=" + cipher.getProvider());
+
+			ECGenParameterSpec ecsp = new ECGenParameterSpec("sect163r2");   //sect163r2
+			kpg.initialize(256);   //ecsp
+			KeyPair kyp = kpg.genKeyPair();
+
+
+			//PublicKey pubKey = kyp
+			PublicKey pubKey = kyp.getPublic();
+
+			//pubKey.toString()
+			int zz=pubKey.toString().length();
+			System.out.println("Size of key"+zz+"and key is "+pubKey.toString());
+
+			PrivateKey privKey = kyp.getPrivate();
+			int pp=pubKey.toString().length();
+			System.out.println("Size of key"+pp+"and key is "+privKey.toString());
+
+			//System.out.println(cipher.getProvider());
+			System.out.println("/n/n");
+
+			cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+			//cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+
+			String cleartextFile = "cleartext.txt";
+			String ciphertextFile = "ciphertextECIES.txt";
+
+			byte[] block = new byte[64];
+			FileInputStream fis = new FileInputStream(cleartextFile);
+			FileOutputStream fos = new FileOutputStream(ciphertextFile);
+			CipherOutputStream cos = new CipherOutputStream(fos, cipher);
+
+			int i;
+			while ((i = fis.read(block)) != -1) {
+				cos.write(block, 0, i);
+			}
+			cos.close();
+
+			// Decrypt
+			String cleartextAgainFile = "cleartextAgainECIES.txt";
+			cipher.init(Cipher.DECRYPT_MODE, privKey, ecsp);
+			fis = new FileInputStream(ciphertextFile);
+			CipherInputStream cis = new CipherInputStream(fis, cipher);
+			fos = new FileOutputStream(cleartextAgainFile);
+			while ((i = cis.read(block)) != -1) {
+				fos.write(block, 0, i);
+			}
+			fos.close();
+		}catch (Exception e) {            
+			e.printStackTrace();
+		}
 	}
-	
 }
